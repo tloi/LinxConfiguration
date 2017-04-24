@@ -2,9 +2,9 @@
 
 ### Properties
 
-- IP address: 35.167.27.204
+- IP address: 34.207.122.22
 
-- Accessible SSH port: 2200
+- Port: 2200
 
 ### Summary
 
@@ -33,30 +33,27 @@
 6. Disable ssh login for root user
   - Execute `sudo nano /etc/ssh/sshd_config`
   - Edit `PermitRootLogin without-password` line to `PermitRootLogin no`
-  - Restart ssh with `sudo service ssh restart`
- 
+  
 7. Install Apache
   - `sudo apt-get install apache2`
 
 8. Install mod_wsgi
   - Run `sudo apt-get install libapache2-mod-wsgi python-dev`
 
-10. Clone the Catalog app from Github
+9. Clone the Catalog app from Github
   - Clone your project from github `git clone https://github.com/tloi/itemCatalog /var/www/python/itemCatalog`  
-  
-11. Install virtual environment
-  - Install the virtual environment `sudo pip install virtualenv`
-  - Create a new virtual environment with `sudo virtualenv venv`
-  - Activate the virutal environment `source venv/bin/activate`
-  - Change permissions `sudo chmod -R 777 venv`
 
-12. Install Flask and other related libraries
-  - Install pip with `sudo apt-get install python-pip`
-  - Install Flask `pip install Flask`
-  - Install other project dependencies `sudo pip install httplib2 oauth2client sqlalchemy psycopg2 sqlalchemy_utils`
+10. Install pip
+  - Execute `sudo apt-get install python-pip`
+
+11. Install Flask
+  - `pip install Flask`
+  
+12. Install essential libraries
+  - `sudo pip install httplib2 oauth2client sqlalchemy`
 
 14. Configure and enable a new virtual host
-  - Run this: `sudo nano /etc/apache2/sites-available/catalog.conf`
+  - Execute `sudo nano /etc/apache2/sites-available/catalog.conf`
   - Paste this code: 
   ```
   <VirtualHost *:80>
