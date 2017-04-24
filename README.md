@@ -24,15 +24,18 @@
   - Comment  `#Port 22` and add `Port 2200`
   
 5. Configure Firewall (UFW)
+  - `sudo ufw default deny incoming`
+  - `sudo ufw default allow outgoing`
   - `sudo ufw allow www`
   - `sudo ufw allow ssh`
+  - `sudo ufw allow ntp`
   - `sudo ufw allow 2200/tcp`
   - `sudo ufw allow 80/tcp`  
   - `sudo ufw enable`
    
 6. Disable ssh login for root user
   - Execute `sudo nano /etc/ssh/sshd_config`
-  - Edit `PermitRootLogin without-password` line to `PermitRootLogin no`
+  - Edit `PermitRootLogin without-password` to `PermitRootLogin no`
   
 7. Install Apache
   - `sudo apt-get install apache2`
@@ -49,8 +52,8 @@
 11. Install Flask
   - `pip install Flask`
   
-12. Install essential libraries
-  - `sudo pip install httplib2 oauth2client sqlalchemy`
+12. Install dependent libraries
+  - `sudo pip install httplib2 oauth2client sqlalchemy requests`
 
 14. Configure and enable a new virtual host
   - Execute `sudo nano /etc/apache2/sites-available/catalog.conf`
