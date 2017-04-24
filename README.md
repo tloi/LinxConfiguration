@@ -8,22 +8,23 @@
 
 ### Summary
 
-1. Create user: grader 
+1. Update all currently installed packages
+  - Execute `sudo apt-get update`
+  - Execute `sudo apt-get upgrade`
+
+2. Create user: grader 
   - Execute `$ sudo adduser grader`
 
-2. Give grader sudo rights
+3. Give grader sudo rights
   - Execute `sudo nano /etc/sudoers.d/grader`
   - Update text `grader ALL=(ALL) NOPASSWD:ALL`
   
-3. Update all currently installed packages
-  - Execute `sudo apt-get update`
-  - Execute `sudo apt-get upgrade`
 
 4. Change SSH port from 22 to 2200
   - Execute `sudo nano /etc/ssh/sshd_config`
   - Comment  `#Port 22` and add `Port 2200`
   
-5. Configure Firewall (UFW)
+5. Configure Firewall
   - `sudo ufw default deny incoming`
   - `sudo ufw default allow outgoing`
   - `sudo ufw allow www`
@@ -73,7 +74,7 @@
   - `ALTER USER u CREATEDB;`
   - `CREATE DATABASE catalog WITH OWNER u;`
   
-17. Point application to new PpstgreSQL database
+17. Point application to new PostgreSQL database
   - Execute `sudo nano database_setup.py` 
   - edit `engine = create_engine('postgresql://u:password@localhost/catalog')`
   - `python /var/www/catalog/catalog/database_setup.py`
