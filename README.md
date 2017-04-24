@@ -59,10 +59,10 @@
   - Execute `sudo nano /etc/apache2/sites-enabled/000-default.conf`
   - Add `WSGIScriptAlias / /var/www/python/itemCatalog/Item-Catalog/project.wsgi` 
   
-14. Configure the local timezone to UTC
-  - Run `sudo dpkg-reconfigure tzdata` and then choose UTC
+14. Set local timezone to UTC
+  - Execute `sudo timedatectl set-timezone UTC`
 
-15. Install and configure PostgreSQL
+15. Install PostgreSQL
   - `sudo apt-get install libpq-dev python-dev`
   - `sudo apt-get install postgresql postgresql-contrib`
 
