@@ -1,4 +1,4 @@
-# Linux-Server-Configuration
+# Linux Server Configuration
 
 ### Properties
 
@@ -23,54 +23,26 @@
   - Execute `sudo nano /etc/ssh/sshd_config`
   - Comment  `#Port 22` and add `Port 2200`
   
-4. Configure Firewall (UFW)
+5. Configure Firewall (UFW)
   - `sudo ufw allow www`
   - `sudo ufw allow ssh`
   - `sudo ufw allow 2200/tcp`
   - `sudo ufw allow 80/tcp`  
   - `sudo ufw enable`
-  
-5. Configure the local timezone to UTC
-  - Run `sudo dpkg-reconfigure tzdata` and then choose UTC
- 
-6. 
-  entication for grawww
-Configure key-based authentication for grassh
-  - Run this command `cp /root/.ssh/authorized_keys /home/grader/.ssh/authorized_keys`
-
-7. Disable ssh login for root user
-  - Run `sudo nano /etc/ssh/sshd_config`
-  - Change `PermitRootLogin without-password` line to `PermitRootLogin no`
+   
+6. Disable ssh login for root user
+  - Execute `sudo nano /etc/ssh/sshd_config`
+  - Edit `PermitRootLogin without-password` line to `PermitRootLogin no`
   - Restart ssh with `sudo service ssh restart`
-  - Now you are only able to login using `ssh -i ~/.ssh/udacity_key.rsa -p 2200 grader@35.167.27.20`
  
-8. Install Apache
+7. Install Apache
   - `sudo apt-get install apache2`
 
-9. Install mod_wsgi
+8. Install mod_wsgi
   - Run `sudo apt-get install libapache2-mod-wsgi python-dev`
-  - Enable mod_wsgi with `sudo a2enmod wsgi`
-  - Start the web server with `sudo service apache2 start`
 
-  
 10. Clone the Catalog app from Github
-  - Install git using: `sudo apt-get install git`
-  - `cd /var/www`
-  - `sudo mkdir catalog`
-  - Change owner of the newly created catalog folder `sudo chown -R grader:grader catalog`
-  - `cd /catalog`
-  - Clone your project from github `git clone https://github.com/rrjoson/udacity-item-catalog.git catalog`
-  - Create a catalog.wsgi file, then add this inside:
-  ```
-  import sys
-  import logging
-  logging.basicConfig(stream=sys.stderr)
-  sys.path.insert(0, "/var/www/catalog/")
-  
-  from catalog import app as application
-  application.secret_key = 'supersecretkey'
-  ```
-  - Rename application.py to __init__.py `mv application.py __init__.py`
+  - Clone your project from github `git clone https://github.com/tloi/itemCatalog /var/www/python/itemCatalog`  
   
 11. Install virtual environment
   - Install the virtual environment `sudo pip install virtualenv`
@@ -78,15 +50,11 @@ Configure key-based authentication for grassh
   - Activate the virutal environment `source venv/bin/activate`
   - Change permissions `sudo chmod -R 777 venv`
 
-12. Install Flask and other dependencies
+12. Install Flask and other related libraries
   - Install pip with `sudo apt-get install python-pip`
   - Install Flask `pip install Flask`
   - Install other project dependencies `sudo pip install httplib2 oauth2client sqlalchemy psycopg2 sqlalchemy_utils`
 
-13. Update path of client_secrets.json file
-  - `nano __init__.py`
-  - Change client_secrets.json path to `/var/www/catalog/catalog/client_secrets.json`
-  
 14. Configure and enable a new virtual host
   - Run this: `sudo nano /etc/apache2/sites-available/catalog.conf`
   - Paste this code: 
@@ -113,6 +81,8 @@ Configure key-based authentication for grassh
   </VirtualHost>
   ```
   - Enable the virtual host `sudo a2ensite catalog`
+14. Configure the local timezone to UTC
+  - Run `sudo dpkg-reconfigure tzdata` and then choose UTC
 
 15. Install and configure PostgreSQL
   - `sudo apt-get install libpq-dev python-dev`
@@ -138,7 +108,3 @@ Configure key-based authentication for grassh
   host    all             all             ::1/128                 md5
   ```
   
-16. Restart Apache 
-  - `sudo service apache2 restart`
-  
-17. Visit site at [http://35.167.27.204](http://35.167.27.204)
