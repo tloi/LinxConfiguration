@@ -53,58 +53,27 @@
   - `pip install Flask`
   
 12. Install dependent libraries
-  - `sudo pip install httplib2 oauth2client sqlalchemy requests`
+  - `sudo pip install httplib2 oauth2client sqlalchemy requests psycopg2`
 
-14. Configure and enable a new virtual host
-  - Execute `sudo nano /etc/apache2/sites-available/catalog.conf`
-  - Paste this code: 
-  ```
-  <VirtualHost *:80>
-      ServerName 35.167.27.204
-      ServerAlias ec2-35-167-27-204.us-west-2.compute.amazonaws.com
-      ServerAdmin admin@35.167.27.204
-      WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/venv/lib/python2.7/site-packages
-      WSGIProcessGroup catalog
-      WSGIScriptAlias / /var/www/catalog/catalog.wsgi
-      <Directory /var/www/catalog/catalog/>
-          Order allow,deny
-          Allow from all
-      </Directory>
-      Alias /static /var/www/catalog/catalog/static
-      <Directory /var/www/catalog/catalog/static/>
-          Order allow,deny
-          Allow from all
-      </Directory>
-      ErrorLog ${APACHE_LOG_DIR}/error.log
-      LogLevel warn
-      CustomLog ${APACHE_LOG_DIR}/access.log combined
-  </VirtualHost>
-  ```
-  - Enable the virtual host `sudo a2ensite catalog`
+13. Configure Web hosting
+  - Execute `sudo nano /etc/apache2/sites-enabled/000-default.conf`
+  - Add `WSGIScriptAlias / /var/www/python/itemCatalog/Item-Catalog/project.wsgi` 
+  
 14. Configure the local timezone to UTC
   - Run `sudo dpkg-reconfigure tzdata` and then choose UTC
 
 15. Install and configure PostgreSQL
   - `sudo apt-get install libpq-dev python-dev`
   - `sudo apt-get install postgresql postgresql-contrib`
+
+16. Setup new PostgreSQL database  
   - `sudo su - postgres`
   - `psql`
-  - `CREATE USER catalog WITH PASSWORD 'password';`
-  - `ALTER USER catalog CREATEDB;`
-  - `CREATE DATABASE catalog WITH OWNER catalog;`
-  - `\c catalog`
-  - `REVOKE ALL ON SCHEMA public FROM public;`
-  - `GRANT ALL ON SCHEMA public TO catalog;`
-  - `\q`
-  - `exit`
-  - Change create engine line in your `__init__.py` and `database_setup.py` to: 
-  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
-  - `python /var/www/catalog/catalog/database_setup.py`
-  - Make sure no remote connections to the database are allowed. Check if the contents of this file `sudo nano /etc/postgresql/9.3/main/pg_hba.conf` looks like this:
-  ```
-  local   all             postgres                                peer
-  local   all             all                                     peer
-  host    all             all             127.0.0.1/32            md5
-  host    all             all             ::1/128                 md5
-  ```
+  - `CREATE USER u WITH PASSWORD 'password';`
+  - `ALTER USER u CREATEDB;`
+  - `CREATE DATABASE catalog WITH OWNER u;`
   
+17. Point application to new PpstgreSQL database
+  - Execute `sudo nano database_setup.py` 
+  - edit `engine = create_engine('postgresql://u:password@localhost/catalog')`
+  - `python /var/www/catalog/catalog/database_setup.py`
