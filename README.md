@@ -51,7 +51,7 @@
   - Execute `sudo apt-get install python-pip`
 
 11. Install Flask
-  - `pip install Flask`
+  - `sudo pip install Flask`
   
 12. Install dependent libraries
   - `sudo pip install httplib2 oauth2client sqlalchemy requests psycopg2`
