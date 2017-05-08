@@ -58,7 +58,7 @@
 
 13. Configure Web hosting
   - Execute `sudo nano /etc/apache2/sites-enabled/000-default.conf`
-  - Add `WSGIScriptAlias / /var/www/python/itemCatalog/Item-Catalog/project.wsgi` 
+  - Add `WSGIScriptAlias / /var/www/python/itemCatalog/project/project.wsgi` 
   
 14. Set local timezone to UTC
   - Execute `sudo timedatectl set-timezone UTC`
